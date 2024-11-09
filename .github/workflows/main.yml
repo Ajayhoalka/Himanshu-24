@@ -1,0 +1,56 @@
+name: Run Spike Workflow
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *'  # Runs at the top of every hour
+
+jobs:
+  run_spike_workflow:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-python-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-python-
+            ${{ runner.os }}-
+
+      - name: Set up Spike binary
+        run: |
+          if [ -f Spike ]; then
+            chmod +x Spike
+          else
+            echo "Spike binary not found" && exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Install required packages
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Spike.py
+        run: |
+          python3 Spike.py
+
+      - name: Run Tests
+        run: |
+          pytest tests/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: spike-artifacts
+          path: path/to/generated/files
