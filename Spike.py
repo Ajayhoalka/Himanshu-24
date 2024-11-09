@@ -6,8 +6,8 @@ from telegram.ext import Application, CommandHandler, CallbackContext
 from telegram.error import TelegramError
 import time
 
-TELEGRAM_BOT_TOKEN = '7681412166:AQ7uytCZ2et60GhLGkFM'
-ADMIN_USER_ID = 73779  # Admin Telegram ID for approving/disapproving users
+TELEGRAM_BOT_TOKEN = '7351069485:AAHSkECPcRrapcC7L-q1cy1g2Udoj4bXrnA'
+ADMIN_USER_ID = 6484008134  # Admin Telegram ID for approving/disapproving users
 bot_access_free = False  # Bot access is restricted
 bot_busy = False  # Track if the bot is busy with an attack
 remaining_time = 0  # Track remaining time for ongoing attack
